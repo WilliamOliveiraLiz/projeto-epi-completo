@@ -1,11 +1,12 @@
 package com.exemplo.epi;
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.ArrayList;
-
+@Repository
 public class UsuarioDao {
-
-    public void inserir(com.example.Usuario u) {
+    public void inserir(com.exemplo.epi.Usuario u) {
         String sql = "INSERT INTO usuario (nome, email, senha, perfil) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = Conexao.conectar();
@@ -24,8 +25,8 @@ public class UsuarioDao {
         }
     }
 
-    public ArrayList<com.example.Usuario> listar() {
-        ArrayList<com.example.Usuario> lista = new ArrayList<>();
+    public ArrayList<com.exemplo.epi.Usuario> listar() {
+        ArrayList<com.exemplo.epi.Usuario> lista = new ArrayList<>();
         String sql = "SELECT * FROM usuario";
 
         try (Connection conn = Conexao.conectar();
@@ -33,7 +34,7 @@ public class UsuarioDao {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                com.example.Usuario u = new com.example.Usuario(
+                com.exemplo.epi.Usuario u = new com.exemplo.epi.Usuario(
                         rs.getInt("id_usuario"),
                         rs.getString("nome"),
                         rs.getString("email"),
@@ -50,7 +51,7 @@ public class UsuarioDao {
         return lista;
     }
 
-    public void atualizar(com.example.Usuario u) {
+    public void atualizar(com.exemplo.epi.Usuario u) {
         String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ?, perfil = ? WHERE id_usuario = ?";
 
         try (Connection conn = Conexao.conectar();

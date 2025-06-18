@@ -1,9 +1,12 @@
 package com.exemplo.epi;
 
+import com.mysql.cj.jdbc.CallableStatement;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Principal {
+public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -26,7 +29,7 @@ public class Principal {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> menuEPI(sc, epiDao);
+                case 1 -> menuEPI(sc, epiDao, rs);
                 case 2 -> menuUsuario(sc, usuarioDao);
                 case 3 -> menuEmprestimo(sc, emprestimoDao);
                 case 4 -> menuDevolucao(sc, devolucaoDao);
@@ -37,7 +40,7 @@ public class Principal {
 
         sc.close();
     }
-    private static void menuEPI(Scanner sc, EPIDao dao) {
+    private static void menuEPI(Scanner sc, EPIDao dao, CallableStatement rs) throws SQLException {
         int op;
         do {
             System.out.println("\n-- MENU EPI --");
@@ -57,11 +60,11 @@ public class Principal {
                     System.out.print("Validade (YYYY-MM-DD): ");
                     String validade = sc.nextLine();
 
-                    dao.inserir(new EPI(nome, validade));
+                    dao.inserir(new Epi(rs.getInt("id_epi"), nome, validade));
                 }
                 case 2 -> {
-                    ArrayList<EPI> lista = dao.listarEPIs();
-                    for (EPI e : lista) {
+                    ArrayList<Epi> lista = dao.listarEPIs();
+                    for (Epi e : lista) {
                         System.out.println("ID: " + e.getId() + " | Nome: " + e.getNome() + " | Validade: " + e.getValidade());
                     }
                 }
@@ -74,7 +77,7 @@ public class Principal {
                     System.out.print("Nova validade (YYYY-MM-DD): ");
                     String validade = sc.nextLine();
 
-                    dao.atualizarEPI(new EPI(id, nome, validade));
+                    dao.atualizarEPI(new Epi(rs.getInt("id_epi"), nome, validade));
                 }
                 case 4 -> {
                     System.out.print("ID do EPI a excluir: ");

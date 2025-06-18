@@ -10,7 +10,7 @@ public class Epi {
         this.nome = nome;
         this.validade = validade;
     }
-    public Epi(String nome, String validade) {
+    public Epi(int id, String nome, String validade) {
         this.nome = nome;
         this.validade = validade;
     }

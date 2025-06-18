@@ -1,11 +1,13 @@
 package com.exemplo.epi;
 
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.ArrayList;
-
+@Repository
 public class EPIDao {
 
-    public void inserir(EPI u) {
+    public void inserir(Epi u) {
         String sql = "INSERT INTO epi (nome, validade) VALUES (?, ?)";
 
         try (Connection conn = Conexao.conectar();
@@ -22,8 +24,8 @@ public class EPIDao {
         }
     }
 
-    public ArrayList<EPI> listarEPIs() {
-        ArrayList<EPI> lista = new ArrayList<>();
+    public ArrayList<Epi> listarEPIs() {
+        ArrayList<Epi> lista = new ArrayList<>();
         String sql = "SELECT * FROM epi";
 
         try (Connection conn = Conexao.conectar();
@@ -31,7 +33,7 @@ public class EPIDao {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                EPI epi = new EPI(
+                Epi epi = new Epi(
                         rs.getInt("id_epi"),
                         rs.getString("nome"),
                         rs.getString("validade")
@@ -46,7 +48,7 @@ public class EPIDao {
         return lista;
     }
 
-    public void atualizarEPI(EPI epi) {
+    public void atualizarEPI(Epi epi) {
         String sql = "UPDATE epi SET nome = ?, validade = ? WHERE id = ?";
 
         try (Connection conn = Conexao.conectar();
