@@ -173,7 +173,7 @@ public class Main {
                     dao.inserir(new Emprestimo(idUsuario, idEpi, dataRetirada, dataPrevista, confirmacao));
                 }
                 case 2 -> {
-                    ArrayList<Emprestimo> lista = dao.listar();
+                    ArrayList<Emprestimo> lista = dao.listarEmprestimos();
                     for (Emprestimo e : lista) {
                         System.out.println("ID: " + e.getId() + " | Usuário: " + e.getIdUsuario() +
                                 " | EPI: " + e.getIdEpi() +
