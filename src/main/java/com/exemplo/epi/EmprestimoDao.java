@@ -26,7 +26,7 @@ public class EmprestimoDao {
         }
     }
 
-    public ArrayList<Emprestimo> listar() {
+    public ArrayList<Emprestimo> listarEmprestimos() {
         ArrayList<Emprestimo> lista = new ArrayList<>();
         String sql = "SELECT * FROM emprestimo";
 
