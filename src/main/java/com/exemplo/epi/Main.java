@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args, CallableStatement rs) throws SQLException {
         Scanner sc = new Scanner(System.in);
         EPIDao epiDao = new EPIDao();
         UsuarioDao usuarioDao = new UsuarioDao();
