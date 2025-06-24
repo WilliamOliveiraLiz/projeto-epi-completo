@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
-    private static final String URL = "jdbc:mysql://localhost:3306/controle_epis";
+    private static final String URL = "jdbc:mysql://localhost:3306/episdb";
     private static final String USUARIO = "root";
     private static final String SENHA = "";
 
