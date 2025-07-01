@@ -1,33 +1,49 @@
 package com.exemplo.epi;
 
-import com.mysql.cj.jdbc.CallableStatement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/epi")
 public class EpiController {
 
-    @Autowired
-    private EPIDao EPIDao = new EPIDao();
-    private CallableStatement rs;
+    private final EpiService epiService;
 
-    @PostMapping("/epis")
-    public String salvar(@RequestParam String nome, @RequestParam String validade) {
-        int id;
-        try {
-            EPIDao.inserir(new Epi(rs.getInt("id_epi"), nome, validade));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return "redirect:/epis";
+    public EPIController(EpiService epiService) {
+        this.epiService = epiService;
     }
 
-    @GetMapping("/epis")
-    @ResponseBody
-    public List<Epi> listar() {
-        return EPIDao.listarEPIs();
+    @GetMapping
+    public ArrayList<Epi> listarEPIs() {
+        return epiService.buscarTodosEPIs();
     }
+
+    @PostMapping("/novo")
+    public RedirectView adicionarEPI(@ModelAttribute Epi epi) {
+        epiService.adicionarEpi(epi);
+        return new RedirectView("/form-epi.html");
+    }
+
+    @PostMapping("/editar")
+    public RedirectView atualizarEPI(@ModelAttribute Epi epi) {
+        epiService.atualizarEPI(epi);
+        return new RedirectView("/form-epi.html");
+    }
+
+    @GetMapping("/excluir/{id}")
+    public RedirectView excluirEPI(@PathVariable("id") int id) {
+        epiService.deletarEPI(id);
+        return new RedirectView("/form-epi.html");
+    }
+
+    @GetMapping("/buscar/{id}")
+    public Epi buscarPorId(@PathVariable("id") int id) {
+        return epiService.buscarEpiPorId(id);
+    }
+
+
 }
