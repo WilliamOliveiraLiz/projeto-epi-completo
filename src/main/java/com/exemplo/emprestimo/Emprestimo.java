@@ -1,4 +1,4 @@
-package com.exemplo.epi;
+package com.exemplo.emprestimo;
 
 public class Emprestimo {
     private int id;

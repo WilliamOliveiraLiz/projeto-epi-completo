@@ -1,5 +1,12 @@
-package com.exemplo.epi;
+package com.exemplo.main;
 
+import com.exemplo.devolucao.Devolucao;
+import com.exemplo.devolucao.DevolucaoDao;
+import com.exemplo.emprestimo.Emprestimo;
+import com.exemplo.emprestimo.EmprestimoDao;
+import com.exemplo.epi.Epi;
+import com.exemplo.usuario.Usuario;
+import com.exemplo.usuario.UsuarioDao;
 import com.mysql.cj.jdbc.CallableStatement;
 
 import java.sql.SQLException;

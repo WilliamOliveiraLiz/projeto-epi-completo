@@ -1,4 +1,4 @@
-package com.exemplo.epi;
+package com.exemplo.usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

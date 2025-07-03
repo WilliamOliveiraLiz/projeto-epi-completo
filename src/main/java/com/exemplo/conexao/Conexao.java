@@ -1,4 +1,4 @@
-package com.exemplo.epi;
+package com.exemplo.conexao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package com.exemplo.epi;
+package com.exemplo.usuario;
 
 public class Usuario {
     private int id;

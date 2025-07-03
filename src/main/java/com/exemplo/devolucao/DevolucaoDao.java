@@ -1,4 +1,6 @@
-package com.exemplo.epi;
+package com.exemplo.devolucao;
+
+import com.exemplo.conexao.Conexao;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -45,6 +47,25 @@ public class DevolucaoDao {
 
         return lista;
     }
+
+    public void atualizar(Devolucao d) {
+        String sql = "UPDATE devolucao SET id_emprestimo = ?, data_devolucao = ? WHERE id_devolucao = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, d.getIdEmprestimo());
+            stmt.setString(2, d.getDataDevolucao());
+            stmt.setInt(3, d.getId());
+
+            int linhas = stmt.executeUpdate();
+            System.out.println(linhas > 0 ? "Devolução atualizada!" : "Devolução não encontrada.");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar a devolução: " + e.getMessage());
+        }
+    }
+
     public void excluir(int id) {
         String sql = "DELETE FROM devolucao WHERE id_devolucao = ?";
 
@@ -58,5 +79,28 @@ public class DevolucaoDao {
         } catch (SQLException e) {
             System.out.println("Erro ao excluir o devolução: " + e.getMessage());
         }
+    }
+
+    public Devolucao buscarPorId(int id) {
+        String sql = "SELECT * FROM devolucao WHERE id_devolucao = ?";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Devolucao(
+                        rs.getInt("id_devolucao"),
+                        rs.getInt("id_emprestimo"),
+                        rs.getString("data_devolucao")
+                );
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar devolução: " + e.getMessage());
+        }
+        return null;
     }
 }

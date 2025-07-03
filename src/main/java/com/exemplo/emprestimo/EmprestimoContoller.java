@@ -1,4 +1,4 @@
-package com.exemplo.epi;
+package com.exemplo.emprestimo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
