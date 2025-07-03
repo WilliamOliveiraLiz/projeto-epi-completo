@@ -11,39 +11,34 @@ import java.util.List;
 @RequestMapping("/epi")
 public class EpiController {
 
-    private final EpiService epiService;
-
-    public EPIController(EpiService epiService) {
-        this.epiService = epiService;
-    }
+    private EpiDao epiDao = new EpiDao();
 
     @GetMapping
-    public ArrayList<Epi> listarEPIs() {
-        return epiService.buscarTodosEPIs();
+    public ArrayList<Epi> listar() {
+        return epiDao.listar();
     }
 
     @PostMapping("/novo")
     public RedirectView adicionarEPI(@ModelAttribute Epi epi) {
-        epiService.adicionarEpi(epi);
+        epiDao.inserir(epi);
         return new RedirectView("/form-epi.html");
     }
 
     @PostMapping("/editar")
     public RedirectView atualizarEPI(@ModelAttribute Epi epi) {
-        epiService.atualizarEPI(epi);
+        epiDao.atualizar(epi);
         return new RedirectView("/form-epi.html");
     }
 
     @GetMapping("/excluir/{id}")
     public RedirectView excluirEPI(@PathVariable("id") int id) {
-        epiService.deletarEPI(id);
+        epiDao.excluir(id);
         return new RedirectView("/form-epi.html");
     }
 
     @GetMapping("/buscar/{id}")
     public Epi buscarPorId(@PathVariable("id") int id) {
-        return epiService.buscarEpiPorId(id);
+        return epiDao.buscarPorId(id);
     }
-
 
 }

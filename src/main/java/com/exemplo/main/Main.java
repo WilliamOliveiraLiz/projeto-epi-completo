@@ -5,6 +5,7 @@ import com.exemplo.devolucao.DevolucaoDao;
 import com.exemplo.emprestimo.Emprestimo;
 import com.exemplo.emprestimo.EmprestimoDao;
 import com.exemplo.epi.Epi;
+import com.exemplo.epi.EpiDao;
 import com.exemplo.usuario.Usuario;
 import com.exemplo.usuario.UsuarioDao;
 import com.mysql.cj.jdbc.CallableStatement;
@@ -17,7 +18,7 @@ public class Main {
 
     public static void main(String[] args, CallableStatement rs) throws SQLException {
         Scanner sc = new Scanner(System.in);
-        EPIDao epiDao = new EPIDao();
+        EpiDao epiDao = new EpiDao();
         UsuarioDao usuarioDao = new UsuarioDao();
         EmprestimoDao emprestimoDao = new EmprestimoDao();
         DevolucaoDao devolucaoDao = new DevolucaoDao();
@@ -47,7 +48,7 @@ public class Main {
 
         sc.close();
     }
-    private static void menuEPI(Scanner sc, EPIDao dao, CallableStatement rs) throws SQLException {
+    private static void menuEPI(Scanner sc, EpiDao dao, CallableStatement rs) throws SQLException {
         int op;
         do {
             System.out.println("\n-- MENU EPI --");
@@ -67,10 +68,10 @@ public class Main {
                     System.out.print("Validade (YYYY-MM-DD): ");
                     String validade = sc.nextLine();
 
-                    dao.inserir(new Epi(rs.getInt("id_epi"), nome, validade));
+                    dao.inserir(new Epi());
                 }
                 case 2 -> {
-                    ArrayList<Epi> lista = dao.listarEPIs();
+                    ArrayList<Epi> lista = dao.listar();
                     for (Epi e : lista) {
                         System.out.println("ID: " + e.getId() + " | Nome: " + e.getNome() + " | Validade: " + e.getValidade());
                     }
@@ -84,12 +85,12 @@ public class Main {
                     System.out.print("Nova validade (YYYY-MM-DD): ");
                     String validade = sc.nextLine();
 
-                    dao.atualizarEPI(new Epi(rs.getInt("id_epi"), nome, validade));
+                    dao.atualizar(new Epi());
                 }
                 case 4 -> {
                     System.out.print("ID do EPI a excluir: ");
                     int id = sc.nextInt();
-                    dao.excluirEPI(id);
+                    dao.excluir(id);
                 }
             }
         } while (op != 0);
