@@ -13,18 +13,18 @@ public class DevolucaoController {
 
     @GetMapping("/devolucao")
     @ResponseBody
-    public List<Devolucao> devolucoes(){
+    public List<Devolucao> listar(){
         return devolucaoDAO.listar();
     }
 
     @PostMapping
-    public String salvarDevolucao(Devolucao devolucao) {
+    public String inserir(Devolucao devolucao) {
         devolucaoDAO.inserir(devolucao);
         return "redirect:/devolucoes";
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluirDevolucao(@PathVariable("id") int id) {
+    public String excluir(@PathVariable("id") int id) {
         devolucaoDAO.excluir(id);
         return "redirect:/devolucoes";
     }

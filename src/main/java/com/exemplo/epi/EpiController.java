@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/epi")
+@RequestMapping("/epis")
 public class EpiController {
 
     private EpiDao epiDao = new EpiDao();
@@ -19,21 +19,21 @@ public class EpiController {
     }
 
     @PostMapping("/novo")
-    public RedirectView adicionarEPI(@ModelAttribute Epi epi) {
+    public RedirectView inserir(@ModelAttribute Epi epi) {
         epiDao.inserir(epi);
-        return new RedirectView("/form-epi.html");
+        return new RedirectView("/form-epis.html");
     }
 
     @PostMapping("/editar")
-    public RedirectView atualizarEPI(@ModelAttribute Epi epi) {
+    public RedirectView atualizar(@ModelAttribute Epi epi) {
         epiDao.atualizar(epi);
-        return new RedirectView("/form-epi.html");
+        return new RedirectView("/form-epis.html");
     }
 
     @GetMapping("/excluir/{id}")
-    public RedirectView excluirEPI(@PathVariable("id") int id) {
+    public RedirectView excluir(@PathVariable("id") int id) {
         epiDao.excluir(id);
-        return new RedirectView("/form-epi.html");
+        return new RedirectView("/form-epis.html");
     }
 
     @GetMapping("/buscar/{id}")

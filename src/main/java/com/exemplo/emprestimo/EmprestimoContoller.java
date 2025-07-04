@@ -13,18 +13,18 @@ public class EmprestimoContoller {
 
     @GetMapping("/emprestimos")
     @ResponseBody
-    public List<Emprestimo> listarEmprestimos() {
+    public List<Emprestimo> listar() {
         return emprestimoDAO.listarEmprestimos();
     }
 
     @PostMapping
-    public String salvarEmprestimo(Emprestimo emprestimo) {
+    public String inserir(Emprestimo emprestimo) {
         emprestimoDAO.inserir(emprestimo);
         return "redirect:/emprestimos";
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluirEmprestimo(@PathVariable("id") int id) {
+    public String excluir(@PathVariable("id") int id) {
         emprestimoDAO.excluir(id);
         return "redirect:/emprestimos";
     }

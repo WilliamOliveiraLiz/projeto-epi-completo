@@ -15,7 +15,7 @@ public class UsuarioController {
     private CallableStatement rs;
 
     @GetMapping
-    public ModelAndView listarUsuarios() {
+    public ModelAndView listar() {
         List<Usuario> lista = usuarioDAO.listar();
         ModelAndView mv = new ModelAndView("listar_usuarios");
         mv.addObject("usuarios", lista);
@@ -23,13 +23,13 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public String salvarUsuario(Usuario usuario) {
+    public String inserir(Usuario usuario) {
         usuarioDAO.inserir(usuario);
         return "redirect:/usuarios";
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluirUsuario(@PathVariable int id) {
+    public String excluir(@PathVariable int id) {
         usuarioDAO.excluir(id);
         return "redirect:/usuarios";
     }
