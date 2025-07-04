@@ -2,35 +2,76 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Empréstimo</title>
+    <style>
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+    </style>
 </head>
 <body>
-<h1>Cadastro de Empréstimo</h1>
+<main>
+    <h1>Cadastro de Empréstimo</h1>
+    <div class="mensagem" id="mensagem"></div>
 
-<form action="/emprestimos" method="post">
-    <label for="idUsuario">ID do Usuário:</label><br>
-    <input type="number" id="idUsuario" name="idUsuario" required><br><br>
+    <form action="/emprestimos" method="post" novalidate>
+        <fieldset>
+            <legend>Dados do Empréstimo</legend>
 
-    <label for="idEpi">ID do EPI:</label><br>
-    <input type="number" id="idEpi" name="idEpi" required><br><br>
+            <div class="form-group">
+                <label for="idUsuario" class="required">ID do Usuário:</label>
+                <input type="number" id="idUsuario" name="idUsuario" required min="1" aria-required="true">
+            </div>
 
-    <label for="dataRetirada">Data de Retirada:</label><br>
-    <input type="date" id="dataRetirada" name="dataRetirada" required><br><br>
+            <div class="form-group">
+                <label for="idEpi" class="required">ID do EPI:</label>
+                <input type="number" id="idEpi" name="idEpi" required min="1" aria-required="true">
+            </div>
 
-    <label for="dataPrevistaDevolucao">Data Prevista de Devolução:</label><br>
-    <input type="date" id="dataPrevistaDevolucao" name="dataPrevistaDevolucao" required><br><br>
+            <div class="form-group">
+                <label for="dataRetirada" class="required">Data de Retirada:</label>
+                <input type="date" id="dataRetirada" name="dataRetirada" required aria-required="true">
+            </div>
 
-    <label for="confirmacaoRetirada">Confirmação da Retirada:</label><br>
-    <select id="confirmacaoRetirada" name="confirmacaoRetirada" required>
-        <option value="SIM">Sim</option>
-        <option value="NAO">Não</option>
-    </select><br><br>
+            <div class="form-group">
+                <label for="dataPrevistaDevolucao" class="required">Data Prevista de Devolução:</label>
+                <input type="date" id="dataPrevistaDevolucao" name="dataPrevistaDevolucao" required aria-required="true">
+            </div>
 
-    <button type="submit">Salvar</button>
-</form>
+            <div class="form-group">
+                <label for="confirmacaoRetirada" class="required">Confirmação da Retirada:</label>
+                <select id="confirmacaoRetirada" name="confirmacaoRetirada" required aria-required="true">
+                    <option value="">Selecione...</option>
+                    <option value="SIM">Sim</option>
+                    <option value="NAO">Não</option>
+                </select>
+            </div>
 
-<hr>
-<h2>Ver emprestimos</h2>
-<a href="/emprestimos">Listar Empréstimos</a>
+            <button type="submit" aria-label="Salvar empréstimo">Salvar</button>
+        </fieldset>
+    </form>
+
+    <section aria-label="Lista de empréstimos">
+        <h2>Ver empréstimos</h2>
+        <nav>
+            <a href="/emprestimos" role="button">Listar Empréstimos</a>
+        </nav>
+    </section>
+</main>
 </body>
 </html>

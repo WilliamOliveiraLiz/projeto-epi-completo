@@ -1,34 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Cadastro de Usuário</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página de cadastro de usuários do sistema">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Cadastro de Usuário</title>
 </head>
 <body>
-<h1>Cadastro de Usuário</h1>
+    <main>
+        <h1>Cadastro de Usuário</h1>
+        <form action="/usuarios" method="post" aria-label="Formulário de cadastro de usuário">
+            <!-- Token CSRF -->
+            <input type="hidden" name="_csrf" value="${csrfToken}">
+            
+            <div class="form-group">
+                <label for="nome">Nome: <span class="required">*</span></label>
+                <input type="text" id="nome" name="nome" required 
+                       placeholder="Digite seu nome completo"
+                       minlength="3" maxlength="100">
+            </div>
 
-<form action="/usuarios" method="post">
-  <label for="nome">Nome:</label><br>
-  <input type="text" id="nome" name="nome" required><br><br>
+            <div class="form-group">
+                <label for="email">Email: <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="seu@email.com"
+                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+            </div>
 
-  <label for="email">Email:</label><br>
-  <input type="email" id="email" name="email" required><br><br>
+            <div class="form-group">
+                <label for="senha">Senha: <span class="required">*</span></label>
+                <input type="password" id="senha" name="senha" required 
+                       placeholder="Mínimo 8 caracteres"
+                       minlength="8"
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       title="Deve conter pelo menos um número, uma letra maiúscula e minúscula, e no mínimo 8 caracteres">
+            </div>
 
-  <label for="senha">Senha:</label><br>
-  <input type="password" id="senha" name="senha" required><br><br>
+            <div class="form-group">
+                <label for="perfil">Perfil: <span class="required">*</span></label>
+                <select id="perfil" name="perfil" required>
+                    <option value="">Selecione um perfil</option>
+                    <option value="USUARIO">Usuário</option>
+                    <option value="ADMIN">Administrador</option>
+                </select>
+            </div>
 
-  <label for="perfil">Perfil:</label><br>
-  <select id="perfil" name="perfil" required>
-    <option value="ADMIN">Administrador</option>
-    <option value="USUARIO">Usuário</option>
-  </select><br><br>
+            <button type="submit" class="btn-submit">Salvar</button>
+        </form>
+        
+        <hr>
+        
+        <section>
+            <h2>Ver Usuários Cadastrados</h2>
+            <a href="/usuarios" class="btn-link">Listar Usuários</a>
+        </section>
+    </main>
 
-  <button type="submit">Salvar</button>
-</form>
+    <script>
+        // Validação do formulário
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const senha = document.getElementById('senha').value;
+            if (!validarSenha(senha)) {
+                e.preventDefault();
+                alert('A senha não atende aos requisitos mínimos de segurança');
+            }
+        });
 
-<hr>
-
-<h2>Ver Usuários Cadastrados</h2>
-<a href="/usuarios">Listar Usuários</a>
+        function validarSenha(senha) {
+            return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(senha);
+        }
+    </script>
 </body>
 </html>
