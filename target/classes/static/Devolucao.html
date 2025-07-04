@@ -2,23 +2,57 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Devolução</title>
+    <style>
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+    </style>
 </head>
 <body>
-<h1>Cadastro de Devolução</h1>
+    <main>
+        <h1>Cadastro de Devolução</h1>
+        <form action="/devolucoes" method="post" novalidate>
+            <fieldset>
+                <legend>Informações da Devolução</legend>
+                
+                <div class="form-group">
+                    <label for="idEmprestimo">ID do Empréstimo:</label>
+                    <input type="number" 
+                           id="idEmprestimo" 
+                           name="idEmprestimo" 
+                           required 
+                           min="1" 
+                           aria-required="true">
+                </div>
 
-<form action="/devolucoes" method="post">
-    <label for="idEmprestimo">ID do Empréstimo:</label><br>
-    <input type="number" id="idEmprestimo" name="idEmprestimo" required><br><br>
+                <div class="form-group">
+                    <label for="dataDevolucao">Data da Devolução:</label>
+                    <input type="date" 
+                           id="dataDevolucao" 
+                           name="dataDevolucao" 
+                           required 
+                           aria-required="true">
+                </div>
 
-    <label for="dataDevolucao">Data da Devolução:</label><br>
-    <input type="date" id="dataDevolucao" name="dataDevolucao" required><br><br>
-
-    <button type="submit">Salvar</button>
-</form>
-
-<hr>
-<h2>Ver devoluções</h2>
-<a href="/devolucoes">Listar Devoluções</a>
+                <button type="submit" aria-label="Salvar devolução">Salvar</button>
+            </fieldset>
+        </form>
+        
+        <section aria-label="Lista de devoluções">
+            <h2>Ver devoluções</h2>
+            <nav>
+                <a href="/devolucoes" role="button">Listar Devoluções</a>
+            </nav>
+        </section>
+    </main>
 </body>
 </html>

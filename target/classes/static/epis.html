@@ -2,24 +2,73 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de EPIs</title>
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        input:focus {
+            outline: 2px solid #007bff;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cadastro de EPI</h1>
+    <main>
+        <h1>Cadastro de EPI</h1>
+        <form action="/epis" method="post">
+            <!-- Token CSRF -->
+            <input type="hidden" name="_csrf" value="${csrfToken}">
+            
+            <fieldset>
+                <legend>Informações do EPI</legend>
+                
+                <div class="form-group">
+                    <label for="nome" class="required">Nome do EPI</label>
+                    <input type="text" 
+                           id="nome" 
+                           name="nome" 
+                           required 
+                           minlength="3" 
+                           maxlength="100"
+                           aria-required="true">
+                </div>
 
-    <form action="/epis" method="post">
-        <label for="nome">Nome do EPI:</label><br>
-        <input type="text" id="nome" name="nome" required><br><br>
+                <div class="form-group">
+                    <label for="validade" class="required">Data de Validade</label>
+                    <input type="date" 
+                           id="validade" 
+                           name="validade" 
+                           required 
+                           aria-required="true"
+                           min="${dataAtual}"
+                           pattern="\d{4}-\d{2}-\d{2}">
+                    <small>Formato: dd/mm/aaaa</small>
+                </div>
 
-        <label for="validade">Data de Validade:</label><br>
-        <input type="date" id="validade" name="validade" required><br><br>
-
-        <button type="submit">Salvar</button>
-    </form>
-
-    <hr>
-
-    <h2>Ver EPIs Cadastrados</h2>
-    <a href="/epis">Listar EPIs</a>
+                <button type="submit" class="btn" aria-label="Salvar EPI">Salvar</button>
+            </fieldset>
+        </form>
+        <hr>
+        <section>
+            <h2>Ver EPIs Cadastrados</h2>
+            <a href="/epis" class="btn" role="button">Listar EPIs</a>
+        </section>
+    </main>
 </body>
 </html>
