@@ -3,42 +3,28 @@ package com.exemplo.epi;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
-@RequestMapping("/epis")
+@RequestMapping("/epi")
 public class EpiController {
 
-    private EpiDao epiDao = new EpiDao();
-
-    @GetMapping
-    public ArrayList<Epi> listar() {
-        return epiDao.listar();
-    }
+    private final EpiDao epiDao = new EpiDao();
 
     @PostMapping("/novo")
-    public RedirectView inserir(@ModelAttribute Epi epi) {
+    public RedirectView salvar(
+            @RequestParam("nome") String nome,
+            @RequestParam("validade") String validade,
+            @RequestParam("quantidade") int quantidade) {
+
+        Epi epi = new Epi(0, nome, validade, quantidade);
+        System.out.println("Recebido: " + epi);
         epiDao.inserir(epi);
-        return new RedirectView("/form-epis.html");
+        return new RedirectView("/epis.html");
     }
 
-    @PostMapping("/editar")
-    public RedirectView atualizar(@ModelAttribute Epi epi) {
-        epiDao.atualizar(epi);
-        return new RedirectView("/form-epis.html");
+    @GetMapping
+    @ResponseBody
+    public String teste() {
+        return "API ativa!";
     }
-
-    @GetMapping("/excluir/{id}")
-    public RedirectView excluir(@PathVariable("id") int id) {
-        epiDao.excluir(id);
-        return new RedirectView("/form-epis.html");
-    }
-
-    @GetMapping("/buscar/{id}")
-    public Epi buscarPorId(@PathVariable("id") int id) {
-        return epiDao.buscarPorId(id);
-    }
-
 }
