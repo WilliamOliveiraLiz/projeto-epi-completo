@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 @Repository
 public class UsuarioDao {
+
+    public UsuarioDao() {
+    }
     public void inserir(Usuario u) {
         String sql = "INSERT INTO usuario (nome, email, senha, perfil) VALUES (?, ?, ?, ?)";
 

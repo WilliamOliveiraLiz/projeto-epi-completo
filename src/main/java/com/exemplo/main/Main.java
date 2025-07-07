@@ -8,7 +8,6 @@ import com.exemplo.epi.Epi;
 import com.exemplo.epi.EpiDao;
 import com.exemplo.usuario.Usuario;
 import com.exemplo.usuario.UsuarioDao;
-import com.mysql.cj.jdbc.CallableStatement;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args, CallableStatement rs) throws SQLException {
+    public static void main(String[] args) throws SQLException {
         Scanner sc = new Scanner(System.in);
         EpiDao epiDao = new EpiDao();
         UsuarioDao usuarioDao = new UsuarioDao();
@@ -37,7 +36,7 @@ public class Main {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> menuEPI(sc, epiDao, rs);
+                case 1 -> menuEPI(sc, epiDao);
                 case 2 -> menuUsuario(sc, usuarioDao);
                 case 3 -> menuEmprestimo(sc, emprestimoDao);
                 case 4 -> menuDevolucao(sc, devolucaoDao);
@@ -48,7 +47,7 @@ public class Main {
 
         sc.close();
     }
-    private static void menuEPI(Scanner sc, EpiDao dao, CallableStatement rs) throws SQLException {
+    private static void menuEPI(Scanner sc, EpiDao dao) throws SQLException {
         int op;
         do {
             System.out.println("\n-- MENU EPI --");
@@ -67,8 +66,9 @@ public class Main {
                     String nome = sc.nextLine();
                     System.out.print("Validade (YYYY-MM-DD): ");
                     String validade = sc.nextLine();
-
-                    dao.inserir(new Epi());
+                    System.out.print("Quantidade: ");
+                    int quantidade = sc.nextInt();
+                    dao.inserir(new Epi(nome, quantidade, validade));
                 }
                 case 2 -> {
                     ArrayList<Epi> lista = dao.listar();
@@ -82,10 +82,13 @@ public class Main {
                     sc.nextLine();
                     System.out.print("Novo nome: ");
                     String nome = sc.nextLine();
+                    System.out.println("Nova quantidade: ");
+                    int quantidade = sc.nextInt();
                     System.out.print("Nova validade (YYYY-MM-DD): ");
                     String validade = sc.nextLine();
 
-                    dao.atualizar(new Epi());
+                    dao.atualizar(new Epi(nome,quantidade,validade));
+
                 }
                 case 4 -> {
                     System.out.print("ID do EPI a excluir: ");

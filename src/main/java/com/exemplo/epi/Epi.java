@@ -6,7 +6,7 @@ public class Epi {
     private String validade;
     private int quantidade;
 
-    public Epi() {}
+    public Epi(String nome, int quantidade, String validade) {}
 
     public Epi(int id, String nome, String validade, int quantidade) {
         this.id = id;

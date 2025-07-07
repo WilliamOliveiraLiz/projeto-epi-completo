@@ -6,6 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class EmprestimoDao {
+    public EmprestimoDao(){
+    }
 
     public void inserir(Emprestimo e) {
         String sql = "INSERT INTO emprestimo (id_emprestimo, id_usuario, id_epi, data_retirada, data_prevista_devolucao, confirmacao_retirada) VALUES (?, ?, ?, ?, ?, ?)";

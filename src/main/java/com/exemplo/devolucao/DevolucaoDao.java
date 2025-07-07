@@ -1,11 +1,14 @@
 package com.exemplo.devolucao;
 
 import com.exemplo.conexao.Conexao;
+import com.exemplo.epi.EpiDao;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DevolucaoDao {
+    public DevolucaoDao(){
+    }
 
     public void inserir(Devolucao d) {
         String sql = "INSERT INTO devolucao (id_emprestimo, data_devolucao) VALUES (?, ?)";

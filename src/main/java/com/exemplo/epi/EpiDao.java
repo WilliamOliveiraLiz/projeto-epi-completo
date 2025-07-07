@@ -2,12 +2,15 @@ package com.exemplo.epi;
 
 import com.exemplo.conexao.Conexao;
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
 import java.util.ArrayList;
 
+
 @Repository
 public class EpiDao {
+
+    public EpiDao(){
+    }
     public void inserir(Epi e) {
         String sql = "INSERT INTO epi (nome, quantidade) VALUES (?, ?)";
 
@@ -15,7 +18,8 @@ public class EpiDao {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, e.getNome());
-            stmt.setInt(2, e.getQuantidade());
+            stmt.setString(2, e.getValidade());
+            stmt.setInt(3, e.getQuantidade());
 
             stmt.executeUpdate();
             System.out.println("EPI inserido com sucesso!");
