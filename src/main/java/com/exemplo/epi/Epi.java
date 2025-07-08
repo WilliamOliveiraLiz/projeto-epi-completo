@@ -6,7 +6,11 @@ public class Epi {
     private String validade;
     private int quantidade;
 
-    public Epi(String nome, int quantidade, String validade) {}
+    public Epi(String nome, int quantidade, String validade) {
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.validade = validade;
+    }
 
     public Epi(int id, String nome, String validade, int quantidade) {
         this.id = id;

@@ -1,6 +1,6 @@
-CREATE DATABASE controle_epis; 
+CREATE DATABASE episdb;
  
-USE controle_epis; 
+USE episdb;
  
 CREATE TABLE usuario ( 
     id_usuario INT(11) PRIMARY KEY AUTO_INCREMENT, 

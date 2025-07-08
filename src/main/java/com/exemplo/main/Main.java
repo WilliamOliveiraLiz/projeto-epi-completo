@@ -8,6 +8,7 @@ import com.exemplo.epi.Epi;
 import com.exemplo.epi.EpiDao;
 import com.exemplo.usuario.Usuario;
 import com.exemplo.usuario.UsuarioDao;
+import org.springframework.lang.NonNull;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class Main {
 
         sc.close();
     }
-    private static void menuEPI(Scanner sc, EpiDao dao) throws SQLException {
+    private static void menuEPI(@NonNull Scanner sc, EpiDao dao) throws SQLException {
         int op;
         do {
             System.out.println("\n-- MENU EPI --");
@@ -99,7 +100,7 @@ public class Main {
         } while (op != 0);
     }
 
-    private static void menuUsuario(Scanner sc, UsuarioDao dao) {
+    private static void menuUsuario(@NonNull Scanner sc, UsuarioDao dao) {
         int op;
         do {
             System.out.println("\n-- MENU USUÁRIO --");
@@ -155,7 +156,7 @@ public class Main {
         } while (op != 0);
     }
 
-    private static void menuEmprestimo(Scanner sc, EmprestimoDao dao) {
+    private static void menuEmprestimo(@NonNull Scanner sc, EmprestimoDao dao) {
         int op;
         do {
             System.out.println("\n-- MENU EMPRÉSTIMO --");
@@ -202,7 +203,7 @@ public class Main {
         } while (op != 0);
     }
 
-    private static void menuDevolucao(Scanner sc, DevolucaoDao dao) {
+    private static void menuDevolucao(@NonNull Scanner sc, DevolucaoDao dao) {
         int op;
         do {
             System.out.println("\n-- MENU DEVOLUÇÃO --");

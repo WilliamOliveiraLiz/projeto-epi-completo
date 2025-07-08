@@ -12,7 +12,7 @@ public class EpiDao {
     public EpiDao(){
     }
     public void inserir(Epi e) {
-        String sql = "INSERT INTO epi (nome, quantidade) VALUES (?, ?)";
+        String sql = "INSERT INTO epi (nome, validade, quantidade) VALUES (?, ?, ? )";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
