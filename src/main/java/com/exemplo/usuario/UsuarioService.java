@@ -8,7 +8,7 @@ import java.util.List;
     public class UsuarioService {
         private UsuarioDao usuarioDao = new UsuarioDao();
 
-        public void salvar(Usuario usuario) {
+        public void inserir(Usuario usuario) {
             usuarioDao.inserir(usuario);
         }
 
@@ -24,7 +24,7 @@ import java.util.List;
             usuarioDao.atualizar(usuario);
         }
 
-        public void deletar(int id) {
+        public void excluir(int id) {
             usuarioDao.excluir(id);
         }
     }

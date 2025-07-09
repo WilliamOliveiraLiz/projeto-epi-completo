@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 
+
 @Repository
 public class EpiDao {
 
@@ -55,7 +56,7 @@ public class EpiDao {
     }
 
     public void atualizar(Epi e) {
-        String sql = "UPDATE epi SET nome = ?, quantidade = ? WHERE id_epi = ?";
+        String sql = "UPDATE epi SET nome = ?, quantidade = ?, validade = ? WHERE id_epi = ?";
 
         try (Connection conn = Conexao.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -63,6 +64,7 @@ public class EpiDao {
             stmt.setString(1, e.getNome());
             stmt.setInt(2, e.getQuantidade());
             stmt.setInt(3, e.getId());
+            stmt.setString(4, e.getValidade());
 
             int linhas = stmt.executeUpdate();
             System.out.println(linhas > 0 ? "EPI atualizado!" : "EPI não encontrado.");

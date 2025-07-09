@@ -1,8 +1,5 @@
 package com.exemplo.devolucao;
 
-import com.exemplo.devolucao.Devolucao;
-import com.exemplo.devolucao.DevolucaoDao;
-
 import java.util.List;
 
 public class DevolucaoService {
@@ -24,7 +21,7 @@ public class DevolucaoService {
         devolucaoDao.atualizar(devolucao);
     }
 
-    public void deletar(int id) {
+    public void excluir(int id) {
         devolucaoDao.excluir(id);
     }
 }

@@ -1,14 +1,11 @@
 package com.exemplo.emprestimo;
 
-import com.exemplo.emprestimo.EmprestimoDao;
-import com.exemplo.emprestimo.Emprestimo;
-
 import java.util.List;
 
 public class EmprestimoService {
     private EmprestimoDao emprestimoDao = new EmprestimoDao();
 
-    public void salvar(Emprestimo emprestimo) {
+    public void inserir(Emprestimo emprestimo) {
         emprestimoDao.inserir(emprestimo);
     }
 
@@ -24,7 +21,7 @@ public class EmprestimoService {
         emprestimoDao.atualizar(emprestimo);
     }
 
-    public void deletar(int id) {
+    public void excluir(int id) {
         emprestimoDao.excluir(id);
     }
 }
