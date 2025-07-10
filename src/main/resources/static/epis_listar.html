@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar EPIs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .actions button {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <h1>Lista de EPIs</h1>
+    <p>Abaixo estão listados todos os Equipamentos de Proteção Individual cadastrados.</p>
+    <a href="form_epi.html">
+        <button>Cadastrar Novo EPI</button>
+    </a>
+</section>
+<section>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Validade</th>
+            <th>Descrição</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>Capacete de Segurança</td>
+            <td>2026-12-31</td>
+            <td>Capacete amarelo para proteção contra impactos.</td>
+            <td class="actions">
+                <form action="epis.html" method="get" style="display:inline;">
+                    <input type="hidden" name="id" value="1">
+                    <button type="submit">Editar</button>
+                </form>
+                <form action="/deletarEpi" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="1">
+                    <button type="submit" onclick="return confirm('Deseja realmente excluir este EPI?');">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+</body>
+</html>
