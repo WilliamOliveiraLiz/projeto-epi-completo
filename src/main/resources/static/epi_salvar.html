@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salvar EPI</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Cadastrar Novo EPI</h1>
+  <form id="epiForm" action="/salvarEpi" method="post">
+    <div class="form-group">
+      <label for="nome">Nome do EPI:</label>
+      <input type="text" id="nome" name="nome" required>
+    </div>
+    <div class="form-group">
+      <label for="validade">Data de Validade:</label>
+      <input type="date" id="validade" name="validade" required>
+    </div>
+    <div class="form-group">
+      <label for="descricao">Descrição:</label>
+      <input type="text" id="descricao" name="descricao" required>
+    </div>
+    <div class="form-group">
+      <button type="submit">Salvar EPI</button>
+      <a href="epis_listar.html">
+        <button type="button">Voltar para Lista</button>
+      </a>
+    </div>
+  </form>
+</main>
+
+<script>
+  document.getElementById('epiForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      try {
+          const response = await fetch('/salvarEpi', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+              alert('EPI salvo com sucesso!');
+              window.location.href = 'epis_listar.html';
+          } else {
+              alert('Erro ao salvar EPI.');
+          }
+      } catch (error) {
+          alert('Erro de conexão.');
+      }
+  });
+</script>
+</body>
+</html>

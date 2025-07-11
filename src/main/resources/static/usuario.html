@@ -6,70 +6,128 @@
     <meta name="description" content="Página de cadastro de usuários do sistema">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Cadastro de Usuário</title>
+    <style>
+        .form-group { margin-bottom: 1rem; }
+        .required::after { content: " *"; color: red; }
+        input:focus { outline: 2px solid #007bff; }
+        .btn {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover { background-color: #0056b3; }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
 </head>
 <body>
-    <main>
-        <h1>Cadastro de Usuário</h1>
-        <form action="/usuario" method="post" aria-label="Formulário de cadastro de usuário">
-            <!-- Token CSRF -->
-            <input type="hidden" name="_csrf" value="${csrfToken}">
-            
-            <div class="form-group">
-                <label for="nome">Nome: <span class="required">*</span></label>
-                <input type="text" id="nome" name="nome" required 
-                       placeholder="Digite seu nome completo"
-                       minlength="3" maxlength="100">
-            </div>
+<main>
+    <h1>Cadastro de Usuário</h1>
 
-            <div class="form-group">
-                <label for="email">Email: <span class="required">*</span></label>
-                <input type="email" id="email" name="email" required 
-                       placeholder="seu@email.com"
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-            </div>
+    <div id="mensagem"></div>
 
-            <div class="form-group">
-                <label for="senha">Senha: <span class="required">*</span></label>
-                <input type="password" id="senha" name="senha" required 
-                       placeholder="Mínimo 8 caracteres"
-                       minlength="8"
-                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                       title="Deve conter pelo menos um número, uma letra maiúscula e minúscula, e no mínimo 8 caracteres">
-            </div>
+    <form id="usuarioForm" action="/api/usuario" method="post" aria-label="Formulário de cadastro de usuário">
+        <!-- Token CSRF -->
+        <input type="hidden" name="_csrf" value="${csrfToken}">
 
-            <div class="form-group">
-                <label for="perfil">Perfil: <span class="required">*</span></label>
-                <select id="perfil" name="perfil" required>
-                    <option value="">Selecione um perfil</option>
-                    <option value="USUARIO">Usuário</option>
-                    <option value="ADMIN">Administrador</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="nome">Nome: <span class="required">*</span></label>
+            <input type="text" id="nome" name="nome" required
+                   placeholder="Digite seu nome completo"
+                   minlength="3" maxlength="100">
+        </div>
 
-            <button type="submit" class="btn-submit">Salvar</button>
-        </form>
-        
-        <hr>
-        
-        <section>
-            <h2>Ver Usuários Cadastrados</h2>
-            <a href="/usuario" class="btn-link">Listar Usuários</a>
-        </section>
-    </main>
+        <div class="form-group">
+            <label for="email">Email: <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required
+                   placeholder="seu@email.com"
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+        </div>
 
-    <script>
-        // Validação do formulário
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const senha = document.getElementById('senha').value;
-            if (!validarSenha(senha)) {
-                e.preventDefault();
-                alert('A senha não atende aos requisitos mínimos de segurança');
-            }
-        });
+        <div class="form-group">
+            <label for="senha">Senha: <span class="required">*</span></label>
+            <input type="password" id="senha" name="senha" required
+                   placeholder="Mínimo 8 caracteres"
+                   minlength="8"
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                   title="Deve conter pelo menos um número, uma letra maiúscula e minúscula, e no mínimo 8 caracteres">
+        </div>
 
-        function validarSenha(senha) {
-            return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(senha);
+        <div class="form-group">
+            <label for="perfil">Perfil: <span class="required">*</span></label>
+            <select id="perfil" name="perfil" required>
+                <option value="">Selecione um perfil</option>
+                <option value="USUARIO">Usuário</option>
+                <option value="ADMIN">Administrador</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Salvar</button>
+    </form>
+
+    <hr>
+
+    <section>
+        <h2>Ver Usuários Cadastrados</h2>
+        <a href="/usuario" class="btn">Listar Usuários</a>
+    </section>
+</main>
+
+<script>
+    document.getElementById('usuarioForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const senha = document.getElementById('senha').value;
+        if (!validarSenha(senha)) {
+            mostrarMensagem('A senha não atende aos requisitos mínimos de segurança', 'error');
+            return;
         }
-    </script>
+
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const response = await fetch('/api/usuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                mostrarMensagem('Usuário cadastrado com sucesso!', 'success');
+                e.target.reset();
+            } else {
+                mostrarMensagem('Erro ao cadastrar usuário.', 'error');
+            }
+        } catch (error) {
+            mostrarMensagem('Erro de conexão.', 'error');
+        }
+    });
+
+    function validarSenha(senha) {
+        return /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(senha);
+    }
+
+    function mostrarMensagem(texto, tipo) {
+        const mensagemDiv = document.getElementById('mensagem');
+        mensagemDiv.className = `message ${tipo}`;
+        mensagemDiv.textContent = texto;
+
+        setTimeout(() => {
+            mensagemDiv.textContent = '';
+            mensagemDiv.className = '';
+        }, 3000);
+    }
+</script>
 </body>
 </html>

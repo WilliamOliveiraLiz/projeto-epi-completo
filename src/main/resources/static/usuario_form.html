@@ -29,7 +29,8 @@
 <body>
 <main>
     <h1>Cadastro de Usuário</h1>
-    <form action="/cadastrarUsuario" method="post">
+    <div id="mensagem"></div>
+    <form id="usuarioForm" onsubmit="salvarUsuario(event)">
         <fieldset>
             <legend>Informações do Usuário</legend>
 
@@ -58,6 +59,45 @@
             <button type="button">Listar Usuários</button>
         </a>
     </section>
+
+    <script>
+        async function salvarUsuario(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/api/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    mostrarMensagem('Usuário cadastrado com sucesso!', 'success');
+                    event.target.reset();
+                } else {
+                    mostrarMensagem('Erro ao cadastrar usuário.', 'error');
+                }
+            } catch (error) {
+                mostrarMensagem('Erro de conexão.', 'error');
+            }
+        }
+
+        function mostrarMensagem(texto, tipo) {
+            const mensagemDiv = document.getElementById('mensagem');
+            mensagemDiv.className = `message ${tipo}`;
+            mensagemDiv.textContent = texto;
+            
+            setTimeout(() => {
+                mensagemDiv.textContent = '';
+                mensagemDiv.className = '';
+            }, 3000);
+        }
+    </script>
 </main>
 </body>
 </html>

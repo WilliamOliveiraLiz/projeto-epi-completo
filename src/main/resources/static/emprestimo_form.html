@@ -39,12 +39,28 @@
         button:hover {
             background-color: #0056b3;
         }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
 <main>
     <h1>Cadastro de Empréstimo</h1>
-    <form action="/emprestimo/novo" method="post">
+
+    <div id="mensagem"></div>
+
+    <form id="emprestimoForm" action="/emprestimo/novo" method="post">
         <fieldset>
             <legend>Informações do Empréstimo</legend>
 
@@ -90,6 +106,45 @@
             <button>Listar Empréstimos</button>
         </a>
     </section>
+
+    <script>
+        document.getElementById('emprestimoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/emprestimo/novo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    mostrarMensagem('Empréstimo cadastrado com sucesso!', 'success');
+                    e.target.reset();
+                } else {
+                    mostrarMensagem('Erro ao cadastrar empréstimo.', 'error');
+                }
+            } catch (error) {
+                mostrarMensagem('Erro de conexão.', 'error');
+            }
+        });
+
+        function mostrarMensagem(texto, tipo) {
+            const mensagemDiv = document.getElementById('mensagem');
+            mensagemDiv.className = `message ${tipo}`;
+            mensagemDiv.textContent = texto;
+            
+            setTimeout(() => {
+                mensagemDiv.textContent = '';
+                mensagemDiv.className = '';
+            }, 3000);
+        }
+    </script>
 </main>
 </body>
 </html>

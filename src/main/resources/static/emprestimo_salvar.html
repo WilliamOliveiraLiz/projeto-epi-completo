@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Empréstimo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .buttons-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Cadastrar Novo Empréstimo</h1>
+        <form id="emprestimoForm" action="/salvarEmprestimo" method="post">
+            <div class="form-group">
+                <label for="colaborador">Colaborador:</label>
+                <input type="text" 
+                       id="colaborador" 
+                       name="colaborador" 
+                       required 
+                       placeholder="Nome do colaborador">
+            </div>
+
+            <div class="form-group">
+                <label for="epi">EPI:</label>
+                <select id="epi" name="epi" required>
+                    <option value="">Selecione um EPI</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dataEmprestimo">Data do Empréstimo:</label>
+                <input type="date" 
+                       id="dataEmprestimo" 
+                       name="dataEmprestimo" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="dataPrevistaDevolucao">Data Prevista de Devolução:</label>
+                <input type="date" 
+                       id="dataPrevistaDevolucao" 
+                       name="dataPrevistaDevolucao" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label for="observacoes">Observações:</label>
+                <input type="text" 
+                       id="observacoes" 
+                       name="observacoes" 
+                       placeholder="Observações sobre o empréstimo">
+            </div>
+
+            <div class="buttons-group">
+                <button type="submit" class="btn-primary">Salvar Empréstimo</button>
+                <a href="emprestimos_listar.html">
+                    <button type="button" class="btn-secondary">Voltar para Lista</button>
+                </a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        // Carregar lista de EPIs disponíveis
+        async function carregarEPIs() {
+            try {
+                const response = await fetch('/listarEPIsDisponiveis');
+                if (response.ok) {
+                    const epis = await response.json();
+                    const selectEPI = document.getElementById('epi');
+                    
+                    epis.forEach(epi => {
+                        const option = document.createElement('option');
+                        option.value = epi.id;
+                        option.textContent = epi.nome;
+                        selectEPI.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar EPIs:', error);
+            }
+        }
+
+        // Configurar submissão do formulário
+        document.getElementById('emprestimoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('/salvarEmprestimo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Empréstimo registrado com sucesso!');
+                    window.location.href = 'emprestimos_listar.html';
+                } else {
+                    alert('Erro ao registrar empréstimo.');
+                }
+            } catch (error) {
+                alert('Erro de conexão ao servidor.');
+                console.error('Erro:', error);
+            }
+        });
+
+        // Carregar EPIs quando a página carregar
+        document.addEventListener('DOMContentLoaded', carregarEPIs);
+    </script>
+</body>
+</html>

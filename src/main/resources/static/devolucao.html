@@ -18,41 +18,82 @@
     </style>
 </head>
 <body>
-    <main>
-        <h1>Cadastro de Devolução</h1>
-        <form action="/devolucao.html" method="post" novalidate>
-            <fieldset>
-                <legend>Informações da Devolução</legend>
-                
-                <div class="form-group">
-                    <label for="idEmprestimo">ID do Empréstimo:</label>
-                    <input type="number" 
-                           id="idEmprestimo" 
-                           name="idEmprestimo" 
-                           required 
-                           min="1" 
-                           aria-required="true">
-                </div>
+<main>
+    <h1>Cadastro de Devolução</h1>
+    <div id="mensagem"></div>
 
-                <div class="form-group">
-                    <label for="dataDevolucao">Data da Devolução:</label>
-                    <input type="date" 
-                           id="dataDevolucao" 
-                           name="dataDevolucao" 
-                           required 
-                           aria-required="true">
-                </div>
+    <form id="devolucaoForm" action="/api/devolucoes" method="post" novalidate>
+        <fieldset>
+            <legend>Informações da Devolução</legend>
 
-                <button type="submit" aria-label="Salvar devolução">Salvar</button>
-            </fieldset>
-        </form>
-        
-        <section aria-label="Lista de devoluções">
-            <h2>Ver devoluções</h2>
-            <nav>
-                <a href="/devolucao" role="button">Listar Devoluções</a>
-            </nav>
-        </section>
-    </main>
+            <div class="form-group">
+                <label for="idEmprestimo">ID do Empréstimo:</label>
+                <input type="number"
+                       id="idEmprestimo"
+                       name="idEmprestimo"
+                       required
+                       min="1"
+                       aria-required="true">
+            </div>
+
+            <div class="form-group">
+                <label for="dataDevolucao">Data da Devolução:</label>
+                <input type="date"
+                       id="dataDevolucao"
+                       name="dataDevolucao"
+                       required
+                       aria-required="true">
+            </div>
+
+            <button type="submit" aria-label="Salvar devolução">Salvar</button>
+        </fieldset>
+    </form>
+
+    <section aria-label="Lista de devoluções">
+        <h2>Ver devoluções</h2>
+        <nav>
+            <a href="/devolucao" role="button">Listar Devoluções</a>
+        </nav>
+    </section>
+
+    <script>
+        document.getElementById('devolucaoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('/api/devolucoes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    mostrarMensagem('Devolução cadastrada com sucesso!', 'success');
+                    e.target.reset();
+                } else {
+                    mostrarMensagem('Erro ao cadastrar devolução.', 'error');
+                }
+            } catch (error) {
+                mostrarMensagem('Erro de conexão.', 'error');
+            }
+        });
+
+        function mostrarMensagem(texto, tipo) {
+            const mensagemDiv = document.getElementById('mensagem');
+            mensagemDiv.className = `message ${tipo}`;
+            mensagemDiv.textContent = texto;
+
+            setTimeout(() => {
+                mensagemDiv.textContent = '';
+                mensagemDiv.className = '';
+            }, 3000);
+        }
+    </script>
+</main>
 </body>
 </html>
