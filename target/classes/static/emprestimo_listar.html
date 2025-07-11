@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Empréstimos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .actions button {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <h1>Lista de Empréstimos</h1>
+    <p>Abaixo estão listados todos os empréstimos de EPIs cadastrados.</p>
+    <a href="emprestimo.html">
+        <button>Cadastrar Novo Empréstimo</button>
+    </a>
+</section>
+<section>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Funcionário</th>
+            <th>EPI</th>
+            <th>Data Empréstimo</th>
+            <th>Data Devolução</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>João Silva</td>
+            <td>Capacete de Segurança</td>
+            <td>2025-07-09</td>
+            <td>-</td>
+            <td class="actions">
+                <form action="devolucao.html" method="get" style="display:inline;">
+                    <input type="hidden" name="id" value="1">
+                    <button type="submit">Devolver</button>
+                </form>
+                <form action="/deletarEmprestimo" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="1">
+                    <button type="submit" onclick="return confirm('Deseja realmente excluir este empréstimo?');">
+                        Excluir
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

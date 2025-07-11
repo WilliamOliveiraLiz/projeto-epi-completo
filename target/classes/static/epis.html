@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,12 +17,23 @@
             cursor: pointer;
         }
         .btn:hover { background-color: #0056b3; }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
 <main>
     <h1>Cadastro de EPI</h1>
-    <form action="/epi/novo" method="post">
+    
+    <!-- Área para mensagens de feedback -->
+    <div id="mensagem"></div>
+    
+    <form id="epiForm" action="/api/epis" method="post">
         <fieldset>
             <legend>Informações do EPI</legend>
 
@@ -34,7 +44,7 @@
 
             <div class="form-group">
                 <label for="validade" class="required">Data de Validade</label>
-                <input type="date" id="validade" name="validade" required aria-required="true" pattern="\d{4}-\d{2}-\d{2}">
+                <input type="date" id="validade" name="validade" required aria-required="true">
                 <small>Formato: dd/mm/aaaa</small>
             </div>
 
@@ -49,8 +59,47 @@
     <hr>
     <section>
         <h2>Ver EPIs Cadastrados</h2>
-        <a href="/epis_listar.html" class="btn" role="button">Listar EPIs</a>
+        <a href="epis_listar.html" class="btn" role="button">Listar EPIs</a>
     </section>
+
+    <script>
+        document.getElementById('epiForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/api/epis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    mostrarMensagem('EPI cadastrado com sucesso!', 'success');
+                    e.target.reset();
+                } else {
+                    mostrarMensagem('Erro ao cadastrar EPI.', 'error');
+                }
+            } catch (error) {
+                mostrarMensagem('Erro de conexão.', 'error');
+            }
+        });
+
+        function mostrarMensagem(texto, tipo) {
+            const mensagemDiv = document.getElementById('mensagem');
+            mensagemDiv.className = `message ${tipo}`;
+            mensagemDiv.textContent = texto;
+            
+            setTimeout(() => {
+                mensagemDiv.textContent = '';
+                mensagemDiv.className = '';
+            }, 3000);
+        }
+    </script>
 </main>
 </body>
 </html>
